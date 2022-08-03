@@ -99,3 +99,8 @@ td, th {
   padding: 0.2em;
   border: 1px solid white;
 }
+
+.btn-wins,
+.btn-time {
+  cursor: pointer;
+}
