@@ -10,7 +10,8 @@ module.exports = {
   },
   plugins: [
   new HtmlWebpackPlugin({
-      title: 'Document',
+      title: 'async-race',
+      template: 'src/index.html',
     }),
   ],
   output: {
