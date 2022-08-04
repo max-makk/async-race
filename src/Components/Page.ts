@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>async-race</title>
-</head>
-<body>
+const Page = (): string => `
   <fieldset>
     <button class="btn-garage">to garage</button>
     <button class="btn-winners">to winners</button>
@@ -55,5 +47,6 @@
     <button class="prev-winners">prev</button>
     <button class="next-winners">next</button>
   </section>
-</body>
-</html>
+`;
+
+export default Page;
