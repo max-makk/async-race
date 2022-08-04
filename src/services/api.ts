@@ -1,3 +1,5 @@
+import { CarObject, Winner } from './interfaces';
+
 const url = 'http://127.0.0.1:3000';
 const garage = `${url}/garage`;
 const engine = `${url}/engine`;
@@ -10,12 +12,7 @@ const getCars = async (page: number, limit = 7) => {
 
 const getCar = async (id: number) => (await fetch(`${garage}/${id}`)).json();
 
-interface Car {
-  name: string
-  color: string
-}
-
-const createCar = async (body: Car) => (await fetch(`${garage}`, {
+const createCar = async (body: CarObject) => (await fetch(`${garage}`, {
   method: 'POST',
   body: JSON.stringify(body),
   headers: {
@@ -27,7 +24,7 @@ const deleteCar = async (id: number) => (await fetch(`${garage}/${id}`, {
   method: 'DELETE',
 })).json();
 
-const updateCar = async (id: number, body: Car) => (await fetch(`${garage}/${id}`, {
+const updateCar = async (id: number, body: CarObject) => (await fetch(`${garage}/${id}`, {
   method: 'PUT',
   body: JSON.stringify(body),
   headers: {
@@ -74,12 +71,6 @@ const getWinner = async (id: number) => (await fetch(`${winners}/${id}`)).json()
 const getWinnerStatus = async (id: number) => (await fetch(`${winners}/${id}`)).status;
 
 const deleteWinner = async (id: number) => (await fetch(`${winners}/${id}`, { method: 'DELETE' })).json();
-
-interface Winner {
-  id: number,
-  wins: number,
-  time: number
-}
 
 const createWinner = async (body: Winner) => (await fetch(winners, {
   method: 'POST',

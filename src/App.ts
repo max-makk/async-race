@@ -25,6 +25,9 @@ export default class App {
     document.querySelector('.btn-race').addEventListener('click', () => {
       this.garage.startRace();
     });
+    document.querySelector('.btn-reset').addEventListener('click', () => {
+      this.garage.resetRace();
+    });
     document.querySelector('.btn-generate').addEventListener('click', () => {
       this.garage.generageCars();
     });

@@ -1,8 +1,9 @@
 import s from '../../services/api';
 import r from '../../utils/randomCars';
 import Car from '../Car/Car';
+import displayNotify from '../../utils/notify';
 
-import { CarObject } from '../../services/interfaces';
+import { CarBody } from '../../services/interfaces';
 
 export default class Garage {
   cars: Car[];
@@ -35,7 +36,7 @@ export default class Garage {
     return res.cars;
   }
 
-  createCars(res: CarObject[]) {
+  createCars(res: CarBody[]) {
     this.cars = [];
     this.list.textContent = '';
     res.forEach((el) => {
@@ -62,13 +63,24 @@ export default class Garage {
   }
 
   async startRace() {
+    (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'yellow';
+    (document.querySelector('.btn-race') as HTMLButtonElement).disabled = true;
     const res = this.cars.map(async (el) => {
       await el.startCar();
       return el;
     });
-    const race = await Promise.race(res);
-    const seconds = ((race.time % 60000) / 1000).toFixed(2);
-    await s.saveWinner({ id: race.id, time: +seconds });
+    const win = await Promise.race(res);
+    const seconds = ((win.time % 60000) / 1000).toFixed(2);
+    if (win) {
+      (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'rgb(32,32,32)';
+      (document.querySelector('.btn-race') as HTMLButtonElement).disabled = false;
+    }
+    displayNotify(win.name, +seconds);
+    await s.saveWinner({ id: win.id, time: +seconds });
+  }
+
+  resetRace() {
+    this.cars.forEach((el) => el.stopCar());
   }
 
   generageCars() {

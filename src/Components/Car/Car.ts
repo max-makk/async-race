@@ -78,9 +78,7 @@ export default class Car {
     this.time = res.distance / res.velocity;
     this.animateCar();
     this.startBtn.disabled = true;
-    this.stopBtn.disabled = false;
-    this.startBtn.style.backgroundColor = 'initial';
-    this.stopBtn.style.backgroundColor = 'blue';
+    this.startBtn.style.backgroundColor = 'rgb(32,32,32)';
     await this.enableDriveMode();
   }
 
@@ -91,7 +89,7 @@ export default class Car {
       this.startBtn.disabled = false;
       this.stopBtn.disabled = true;
       this.startBtn.style.backgroundColor = 'red';
-      this.stopBtn.style.backgroundColor = 'initial';
+      this.stopBtn.style.backgroundColor = 'rgb(32,32,32)';
       (this.UI.querySelector('.car-display') as HTMLDivElement).style.transform = 'translate(0)';
     }
   }
@@ -117,10 +115,17 @@ export default class Car {
     const isDrive = await s.drive(this.id);
     return new Promise<void>((res) => {
       if (isDrive.success) {
+        this.enableStopBtn();
         res();
       } else {
         this.animation.pause();
+        this.enableStopBtn();
       }
     });
+  }
+
+  enableStopBtn() {
+    this.stopBtn.disabled = false;
+    this.stopBtn.style.backgroundColor = 'blue';
   }
 }

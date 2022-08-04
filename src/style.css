@@ -92,6 +92,7 @@ ul {
 table {
   border-collapse: collapse;
   margin-bottom: 1em;
+  font-size: 1rem;
 }
 
 td, th {
@@ -103,4 +104,16 @@ td, th {
 .btn-wins,
 .btn-time {
   cursor: pointer;
+}
+
+.notify {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  padding: 0.5em;
+  background-color: white;
+  color: black;
+  border: 2px dashed black;
 }
