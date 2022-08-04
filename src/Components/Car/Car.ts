@@ -40,11 +40,11 @@ export default class Car {
     });
   }
 
-  getUI() {
+  getUI(): HTMLElement {
     return this.UI;
   }
 
-  editCar() {
+  editCar(): void {
     const field = document.querySelector('.update-placeholder');
     field.textContent = '';
     field.innerHTML = `
@@ -73,7 +73,7 @@ export default class Car {
     btn.addEventListener('click', updateCurrentCar);
   }
 
-  async startCar() {
+  async startCar(): Promise<void> {
     const res = await s.startEngine(this.id);
     this.time = res.distance / res.velocity;
     this.animateCar();
@@ -82,7 +82,7 @@ export default class Car {
     await this.enableDriveMode();
   }
 
-  async stopCar() {
+  async stopCar(): Promise<void> {
     const res = await s.stopEngine(this.id);
     if (res.velocity === 0) {
       this.animation.cancel();
@@ -94,7 +94,7 @@ export default class Car {
     }
   }
 
-  animateCar() {
+  animateCar(): void {
     const view: HTMLDivElement = this.UI.querySelector('.car-display');
     const w = this.UI.offsetWidth - 55;
     const carWidth = view.offsetWidth;
@@ -107,24 +107,23 @@ export default class Car {
     );
     this.animation.play();
     this.animation.onfinish = () => {
+      this.enableStopBtn();
       view.style.transform = `translate(${w - carWidth}px)`;
     };
   }
 
-  async enableDriveMode() {
+  async enableDriveMode(): Promise<void> {
     const isDrive = await s.drive(this.id);
-    return new Promise<void>((res) => {
+    return new Promise((res) => {
       if (isDrive.success) {
-        this.enableStopBtn();
         res();
       } else {
         this.animation.pause();
-        this.enableStopBtn();
       }
     });
   }
 
-  enableStopBtn() {
+  enableStopBtn(): void {
     this.stopBtn.disabled = false;
     this.stopBtn.style.backgroundColor = 'blue';
   }

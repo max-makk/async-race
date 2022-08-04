@@ -1,9 +1,3 @@
-export interface CarBody {
-  id: number
-  name: string
-  color: string
-}
-
 export interface WinnerInfo {
   id: number
   time: number
@@ -16,8 +10,21 @@ export interface CarObject {
   color: string
 }
 
+export interface CarBody extends CarObject {
+  id: number
+}
+
 export interface Winner {
-  id: number,
-  wins: number,
+  id: number
+  wins: number
   time: number
+}
+
+export interface Engine {
+  velocity: number
+  distance: number
+}
+
+export interface Drive {
+  success: boolean
 }

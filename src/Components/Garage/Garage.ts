@@ -21,22 +21,22 @@ export default class Garage {
     this.total = '0';
   }
 
-  displayTotal() {
+  displayTotal(): void {
     document.querySelector('.number-cars').textContent = this.total;
   }
 
-  async init() {
+  async init(): Promise<void> {
     const res = await this.getCars();
     this.createCars(res);
   }
 
-  async getCars() {
+  async getCars(): Promise<CarBody[]> {
     const res = await s.getCars(this.page, 7);
     this.total = res.total;
     return res.cars;
   }
 
-  createCars(res: CarBody[]) {
+  createCars(res: CarBody[]): void {
     this.cars = [];
     this.list.textContent = '';
     res.forEach((el) => {
@@ -51,20 +51,21 @@ export default class Garage {
     this.displayPages();
   }
 
-  async addCar(name: string, color: string) {
+  async addCar(name: string, color: string): Promise<void> {
     await s.createCar({ name, color });
     this.init();
   }
 
-  removeCar(id: number) {
+  removeCar(id: number): void {
     s.deleteCar(id);
     s.deleteWinner(id);
     this.init();
   }
 
-  async startRace() {
+  async startRace(): Promise<void> {
     (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'yellow';
     (document.querySelector('.btn-race') as HTMLButtonElement).disabled = true;
+    (document.querySelector('.btn-reset') as HTMLButtonElement).disabled = true;
     const res = this.cars.map(async (el) => {
       await el.startCar();
       return el;
@@ -74,23 +75,25 @@ export default class Garage {
     if (win) {
       (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'rgb(32,32,32)';
       (document.querySelector('.btn-race') as HTMLButtonElement).disabled = false;
+      (document.querySelector('.btn-reset') as HTMLButtonElement).disabled = false;
     }
     displayNotify(win.name, +seconds);
     await s.saveWinner({ id: win.id, time: +seconds });
   }
 
-  resetRace() {
+  resetRace(): void {
+    this.cars.forEach((el) => el.enableDriveMode());
     this.cars.forEach((el) => el.stopCar());
   }
 
-  generageCars() {
+  generageCars(): void {
     const randomCars = r.getRandomCars();
     randomCars.forEach((el) => {
       this.addCar(el.name, el.color);
     });
   }
 
-  prevPage() {
+  prevPage(): void {
     if (this.page - 1 < 1) {
       return;
     }
@@ -99,7 +102,7 @@ export default class Garage {
     this.displayPages();
   }
 
-  nextPage() {
+  nextPage(): void {
     if (this.page + 1 > Math.ceil(+this.total / 7)) {
       return;
     }
@@ -108,7 +111,7 @@ export default class Garage {
     this.displayPages();
   }
 
-  displayPages() {
+  displayPages(): void {
     document.querySelector('.number-pages').textContent = this.page.toString();
   }
 }

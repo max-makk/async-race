@@ -1,4 +1,4 @@
-const CarUI = (name: string, color: string) => {
+const CarUI = (name: string, color: string): HTMLLIElement => {
   const car = document.createElement('li');
   const select = document.createElement('button');
   const remove = document.createElement('button');
