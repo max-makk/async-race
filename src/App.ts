@@ -22,11 +22,14 @@ export default class App {
       (document.querySelector('.garage-main') as HTMLElement).style.display = 'block';
       this.winners.hide();
     });
-    document.querySelector('.btn-race').addEventListener('click', () => {
-      this.garage.startRace();
-    });
-    document.querySelector('.btn-reset').addEventListener('click', () => {
+    const btnReset: HTMLButtonElement = document.querySelector('.btn-reset');
+    btnReset.addEventListener('click', () => {
       this.garage.resetRace();
+    });
+    document.querySelector('.btn-race').addEventListener('click', () => {
+      btnReset.disabled = true;
+      btnReset.style.backgroundColor = 'yellow';
+      this.garage.startRace();
     });
     document.querySelector('.btn-generate').addEventListener('click', () => {
       this.garage.generageCars();

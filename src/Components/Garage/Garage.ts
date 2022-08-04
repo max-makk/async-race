@@ -73,17 +73,18 @@ export default class Garage {
     const win = await Promise.race(res);
     const seconds = ((win.time % 60000) / 1000).toFixed(2);
     if (win) {
-      (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'rgb(32,32,32)';
-      (document.querySelector('.btn-race') as HTMLButtonElement).disabled = false;
       (document.querySelector('.btn-reset') as HTMLButtonElement).disabled = false;
+      (document.querySelector('.btn-reset') as HTMLButtonElement).style.backgroundColor = 'rgb(32,32,32)';
     }
     displayNotify(win.name, +seconds);
     await s.saveWinner({ id: win.id, time: +seconds });
   }
 
   resetRace(): void {
-    this.cars.forEach((el) => el.enableDriveMode());
+    // this.cars.forEach((el) => el.enableDriveMode());
     this.cars.forEach((el) => el.stopCar());
+    (document.querySelector('.btn-race') as HTMLButtonElement).disabled = false;
+    (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'rgb(32,32,32)';
   }
 
   generageCars(): void {

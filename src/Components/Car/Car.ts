@@ -79,16 +79,20 @@ export default class Car {
     this.animateCar();
     this.startBtn.disabled = true;
     this.startBtn.style.backgroundColor = 'rgb(32,32,32)';
+    this.stopBtn.disabled = false;
+    this.stopBtn.style.backgroundColor = 'blue';
     await this.enableDriveMode();
   }
 
   async stopCar(): Promise<void> {
     const res = await s.stopEngine(this.id);
     if (res.velocity === 0) {
-      this.animation.cancel();
+      if (this.animation) {
+        this.animation.cancel();
+      }
       this.startBtn.disabled = false;
-      this.stopBtn.disabled = true;
       this.startBtn.style.backgroundColor = 'red';
+      this.stopBtn.disabled = true;
       this.stopBtn.style.backgroundColor = 'rgb(32,32,32)';
       (this.UI.querySelector('.car-display') as HTMLDivElement).style.transform = 'translate(0)';
     }
@@ -107,7 +111,6 @@ export default class Car {
     );
     this.animation.play();
     this.animation.onfinish = () => {
-      this.enableStopBtn();
       view.style.transform = `translate(${w - carWidth}px)`;
     };
   }
@@ -121,10 +124,5 @@ export default class Car {
         this.animation.pause();
       }
     });
-  }
-
-  enableStopBtn(): void {
-    this.stopBtn.disabled = false;
-    this.stopBtn.style.backgroundColor = 'blue';
   }
 }
