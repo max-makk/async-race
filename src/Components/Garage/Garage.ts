@@ -63,7 +63,7 @@ export default class Garage {
   }
 
   async startRace(): Promise<void> {
-    (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'yellow';
+    (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'white';
     (document.querySelector('.btn-race') as HTMLButtonElement).disabled = true;
     (document.querySelector('.btn-reset') as HTMLButtonElement).disabled = true;
     const res = this.cars.map(async (el) => {
@@ -81,7 +81,6 @@ export default class Garage {
   }
 
   resetRace(): void {
-    // this.cars.forEach((el) => el.enableDriveMode());
     this.cars.forEach((el) => el.stopCar());
     (document.querySelector('.btn-race') as HTMLButtonElement).disabled = false;
     (document.querySelector('.btn-race') as HTMLButtonElement).style.backgroundColor = 'rgb(32,32,32)';

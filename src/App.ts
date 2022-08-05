@@ -28,7 +28,7 @@ export default class App {
     });
     document.querySelector('.btn-race').addEventListener('click', () => {
       btnReset.disabled = true;
-      btnReset.style.backgroundColor = 'yellow';
+      btnReset.style.backgroundColor = 'white';
       this.garage.startRace();
     });
     document.querySelector('.btn-generate').addEventListener('click', () => {
