@@ -56,9 +56,9 @@ export default class Garage {
     this.init();
   }
 
-  removeCar(id: number): void {
-    s.deleteCar(id);
-    s.deleteWinner(id);
+  async removeCar(id: number): Promise<void> {
+    await s.deleteCar(id);
+    await s.deleteWinner(id);
     this.init();
   }
 
