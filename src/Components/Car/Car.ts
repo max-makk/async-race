@@ -10,21 +10,20 @@ export default class Car {
 
   color: string;
 
-  animation: Animation;
-
-  time: number;
+  animationTime: number;
 
   startBtn: HTMLButtonElement;
 
   stopBtn: HTMLButtonElement;
+
+  state: number;
 
   constructor(id: number, name: string, color: string) {
     this.id = id;
     this.name = name;
     this.color = color;
     this.UI = CarUI(this.name, this.color);
-    this.animation = undefined;
-    this.time = undefined;
+    this.animationTime = undefined;
     this.startBtn = this.UI.querySelector('.car-start');
     this.startBtn.addEventListener('click', () => {
       this.startCar();
@@ -38,6 +37,7 @@ export default class Car {
     this.UI.querySelector('.car-select').addEventListener('click', () => {
       this.editCar();
     });
+    this.state = undefined;
   }
 
   getUI(): HTMLElement {
@@ -75,7 +75,7 @@ export default class Car {
 
   async startCar(): Promise<void> {
     const res = await s.startEngine(this.id);
-    this.time = res.distance / res.velocity;
+    this.animationTime = res.distance / res.velocity;
     this.animateCar();
     this.startBtn.disabled = true;
     this.startBtn.style.backgroundColor = 'rgb(32,32,32)';
@@ -86,33 +86,33 @@ export default class Car {
 
   async stopCar(): Promise<void> {
     const res = await s.stopEngine(this.id);
-    if (res.velocity === 0) {
-      if (this.animation) {
-        this.animation.cancel();
-      }
-      this.startBtn.disabled = false;
-      this.startBtn.style.backgroundColor = 'red';
-      this.stopBtn.disabled = true;
-      this.stopBtn.style.backgroundColor = 'rgb(32,32,32)';
-      (this.UI.querySelector('.car-display') as HTMLDivElement).style.transform = 'translate(0)';
-    }
+    this.animationTime = res.distance / res.velocity;
+    window.cancelAnimationFrame(this.state);
+    this.startBtn.disabled = false;
+    this.startBtn.style.backgroundColor = 'red';
+    this.stopBtn.disabled = true;
+    this.stopBtn.style.backgroundColor = 'rgb(32,32,32)';
+    (this.UI.querySelector('.car-display') as HTMLDivElement).style.transform = 'translate(0)';
   }
 
-  animateCar(): void {
+  animateCar() {
     const view: HTMLDivElement = this.UI.querySelector('.car-display');
-    const w = this.UI.offsetWidth - 55;
     const carWidth = view.offsetWidth;
-    this.animation = view.animate(
-      [{ transform: 'translateX(0)' }, { transform: `translateX(${w - carWidth}px)` }],
-      {
-        duration: this.time,
-        easing: 'ease-in-out',
-      },
-    );
-    this.animation.play();
-    this.animation.onfinish = () => {
-      view.style.transform = `translate(${w - carWidth}px)`;
+    const roadWidth = this.UI.offsetWidth - 55 - carWidth;
+    let start: number;
+
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const time = timestamp - start;
+      const passed = Math.round(time * (roadWidth / this.animationTime));
+      view.style.transform = `translateX(${Math.min(passed, roadWidth)}px)`;
+
+      if (passed < roadWidth) {
+        this.state = window.requestAnimationFrame(step);
+      }
     };
+
+    this.state = window.requestAnimationFrame(step);
   }
 
   async enableDriveMode(): Promise<void> {
@@ -121,7 +121,7 @@ export default class Car {
       if (isDrive.success) {
         res();
       } else {
-        this.animation.pause();
+        window.cancelAnimationFrame(this.state);
       }
     });
   }

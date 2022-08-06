@@ -71,7 +71,7 @@ export default class Garage {
       return el;
     });
     const win = await Promise.race(res);
-    const seconds = ((win.time % 60000) / 1000).toFixed(2);
+    const seconds = ((win.animationTime % 60000) / 1000).toFixed(2);
     if (win) {
       (document.querySelector('.btn-reset') as HTMLButtonElement).disabled = false;
       (document.querySelector('.btn-reset') as HTMLButtonElement).style.backgroundColor = 'rgb(32,32,32)';
