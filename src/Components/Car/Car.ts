@@ -16,7 +16,9 @@ export default class Car {
 
   stopBtn: HTMLButtonElement;
 
-  state: number;
+  state: number | undefined;
+
+  view: HTMLDivElement;
 
   constructor(id: number, name: string, color: string) {
     this.id = id;
@@ -38,6 +40,7 @@ export default class Car {
       this.editCar();
     });
     this.state = undefined;
+    this.view = this.UI.querySelector('.car-display');
   }
 
   getUI(): HTMLElement {
@@ -76,11 +79,11 @@ export default class Car {
   async startCar(): Promise<void> {
     const res = await s.startEngine(this.id);
     this.animationTime = res.distance / res.velocity;
-    this.animateCar();
     this.startBtn.disabled = true;
     this.startBtn.style.backgroundColor = 'rgb(32,32,32)';
     this.stopBtn.disabled = false;
     this.stopBtn.style.backgroundColor = 'blue';
+    this.animateCar();
     await this.enableDriveMode();
   }
 
@@ -88,11 +91,12 @@ export default class Car {
     const res = await s.stopEngine(this.id);
     this.animationTime = res.distance / res.velocity;
     window.cancelAnimationFrame(this.state);
+    this.view.style.transform = 'translate(0)';
+    this.view.classList.remove('accident');
     this.startBtn.disabled = false;
     this.startBtn.style.backgroundColor = 'red';
     this.stopBtn.disabled = true;
     this.stopBtn.style.backgroundColor = 'rgb(32,32,32)';
-    (this.UI.querySelector('.car-display') as HTMLDivElement).style.transform = 'translate(0)';
   }
 
   animateCar() {
@@ -121,6 +125,7 @@ export default class Car {
       if (isDrive.success) {
         res();
       } else {
+        this.view.classList.add('accident');
         window.cancelAnimationFrame(this.state);
       }
     });
