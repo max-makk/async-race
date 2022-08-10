@@ -1,0 +1,134 @@
+:root {
+  box-sizing: border-box;
+}
+
+*,
+*::before
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: black;
+  color: white;
+  font-family: monospace;
+}
+
+input {
+  cursor: pointer;
+}
+
+button {
+  font-family: inherit;
+  background-color: rgb(32, 32, 32);
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+  padding: 0.2em;
+}
+
+button:hover {
+  box-shadow: 0px 0px 5px 1px rgba(255, 255, 255);
+}
+
+button:active {
+  background-color: rgb(218, 218, 218);
+  color: black;
+}
+
+fieldset {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  border: none;
+}
+
+ul {
+  padding: 0;
+}
+
+.car {
+  padding: 0.5em 0;
+  list-style: none;
+  color: purple;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-bottom: 2px dashed white;
+  position: relative;
+}
+
+.car div {
+  font-family: system-ui, sans-serif;
+}
+
+.car::before {
+  color: red;
+  font-size: 3rem;
+  bottom: 1%;
+  right: 120px;
+  position: absolute;
+  content: '\2691';
+}
+
+.car-edit {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.car-wrapper {
+  display: flex;
+}
+
+.car-controls {
+  padding-right: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+table {
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+td, th {
+  font-weight: bold;
+  padding: 0.2em;
+  border: 1px solid white;
+}
+
+.btn-wins,
+.btn-time {
+  cursor: pointer;
+}
+
+.notify {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  padding: 0.5em;
+  background-color: white;
+  color: black;
+  border: 2px dashed black;
+}
+
+.accident {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: .5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
