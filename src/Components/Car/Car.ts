@@ -102,7 +102,8 @@ export default class Car {
   animateCar() {
     const view: HTMLDivElement = this.UI.querySelector('.car-display');
     const carWidth = view.offsetWidth;
-    const roadWidth = this.UI.offsetWidth - 55 - carWidth;
+    const buttonsWidth = 55;
+    const roadWidth = this.UI.offsetWidth - buttonsWidth - carWidth;
     let start: number;
 
     const step = (timestamp: number) => {
