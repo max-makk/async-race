@@ -39,7 +39,7 @@ export default class Winners {
     });
   }
 
-  async init() {
+  async init(): Promise<void> {
     this.section.style.display = 'block';
     this.tbody.textContent = '';
     const wins = await s.getWinners({
@@ -54,19 +54,19 @@ export default class Winners {
     this.displayPages();
   }
 
-  hide() {
+  hide(): void {
     this.section.style.display = 'none';
   }
 
-  displayPages() {
+  displayPages(): void {
     document.querySelector('.number-pages-winners').textContent = this.page.toString();
   }
 
-  displayWinners() {
+  displayWinners(): void {
     document.querySelector('.number-winners').textContent = this.count;
   }
 
-  prevPage() {
+  prevPage(): void {
     if (this.page - 1 < 1) {
       return;
     }
@@ -75,7 +75,7 @@ export default class Winners {
     this.displayPages();
   }
 
-  nextPage() {
+  nextPage(): void {
     if (this.page + 1 > Math.ceil(+this.count / 10)) {
       return;
     }

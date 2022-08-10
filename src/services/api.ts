@@ -1,6 +1,6 @@
 import {
   CarBody, CarObject, Drive, Engine, Winner, WinnerInfo,
-} from './interfaces';
+} from '../utils/interfaces';
 
 const url = 'http://127.0.0.1:3000';
 const garage = `${url}/garage`;
